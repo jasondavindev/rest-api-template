@@ -64,36 +64,6 @@ devhelp                Prints devhelp
 
 dkbuild                Builds project docker image
 
-pkg_install                Install node packages
-
-dkupa                  Starts docker services in attach mode (at first time, runs pkg_install)
-
-dkupd                  Starts docker services in detached mode
-
-dk "cmd"               Runs the 'cmd' command inside the container
-
-dkdown                 Stop and remove docker containers
-
-jason@jason-pc:~/projects/rest-api-template$ source dev.sh 
-devhelp                Prints devhelp
-
-dkbuild                Builds project docker image
-
-pkg_install            Install node packages
-
-dkupa                  Starts docker services in attach mode (at first time, runs pkg_install)
-
-dkupd                  Starts docker services in detached mode
-
-dk "cmd"               Runs the 'cmd' command inside the container
-
-dkdown                 Stop and remove docker containers
-
-jason@jason-pc:~/projects/rest-api-template$ source dev.sh 
-devhelp                Prints devhelp
-
-dkbuild                Builds project docker image
-
 pkg_install            Install node packages
 
 dkupa                  Starts docker services in attach mode (at first time, runs pkg_install)
