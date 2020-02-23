@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}
+    container_name: '${PROJECT_NAME}-api'
+    volumes:
+      - $PWD:/home/node/app
+    ports:
+      - 3000:3000
+    networks:
+      - internal-net
+    depends_on:
+      - db
+
+  db:
+    image: postgres:10-alpine
+    container_name: '${PROJECT_NAME}-db'
+    volumes:
+      - $PWD/docker/volumes/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    networks:
+      - internal-net
+
+networks:
+  internal-net:
+    driver: bridge

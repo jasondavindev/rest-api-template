@@ -1,0 +1,9 @@
+.vscode
+node_modules
+.editorconfig
+.env.example
+.gitignore
+README.md
+docker/volumes
+generator.sh
+.git

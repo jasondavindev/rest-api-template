@@ -1,0 +1,73 @@
+{
+  "name": "rest-api-template",
+  "license": "MIT",
+  "version": "0.0.1",
+  "main": "src/app.ts",
+  "scripts": {
+    "test": "yarn jest",
+    "build": "yarn tsc",
+    "start:dev": "yarn nodemon",
+    "start": "ts-node src/index.ts",
+    "format": "prettier --config ./.prettierrc --no-editorconfig --write \"**/*.*(md|js|ts|vue|json|css|sass|yaml|yml)\"",
+    "lint": "eslint 'src/**/*.ts' --fix",
+    "formalint": "yarn format && yarn lint"
+  },
+  "dependencies": {
+    "class-transformer": "^0.2.3",
+    "class-validator": "0.10.1",
+    "compression": "^1.7.1",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-rate-limit": "^5.1.1",
+    "helmet": "^3.9.0",
+    "microframework-w3tec": "^0.6.3",
+    "pg": "^7.18.2",
+    "reflect-metadata": "^0.1.10",
+    "routing-controllers": "^0.8.1-alpha.2",
+    "typedi": "^0.8.0",
+    "typeorm": "0.2.9",
+    "typeorm-typedi-extensions": "^0.2.3",
+    "uuid": "^3.3.2",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.1",
+    "@types/express": "^4.0.39",
+    "@types/express-rate-limit": "^3.3.3",
+    "@types/helmet": "0.0.41",
+    "@types/jest": "^25.1.3",
+    "@types/node": "^8.0.29",
+    "@types/reflect-metadata": "0.1.0",
+    "@types/uuid": "^3.4.3",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-import-helpers": "^1.0.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.0.7",
+    "merge": "^1.2.1",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1",
+    "ts-jest": "^25.2.1",
+    "ts-node": "^8.6.2",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.7.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "yarn formalint",
+      "git add"
+    ]
+  }
+}
