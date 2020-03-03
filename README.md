@@ -24,6 +24,7 @@ Creating the project just:
 ```
 
 Exit:
+
 ```bash
 Project name is my-project
 Target dir is /tmp/project
@@ -43,6 +44,7 @@ Creating the project and binding to Git repository:
 ```
 
 Exit:
+
 ```bash
 Project name is my-project
 Target dir is /tmp/project/

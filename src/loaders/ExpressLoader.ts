@@ -1,7 +1,6 @@
-import path from 'path';
-
 import { Application } from 'express';
 import { MicroframeworkSettings } from 'microframework-w3tec';
+import path from 'path';
 import { createExpressServer } from 'routing-controllers';
 
 /** Middlewares */

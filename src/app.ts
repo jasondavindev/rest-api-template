@@ -2,8 +2,8 @@ import 'reflect-metadata';
 import { bootstrapMicroframework } from 'microframework-w3tec';
 
 import { Logger } from '@/lib/logger';
-import expressLoader from '@/loaders/expressLoader';
-import typeORMLoader from '@/loaders/typeormLoader';
+import expressLoader from '@/loaders/ExpressLoader';
+import typeORMLoader from '@/loaders/TypeormLoader';
 
 const log = new Logger(__filename);
 

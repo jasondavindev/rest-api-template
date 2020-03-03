@@ -12,7 +12,7 @@ export default async (settings: MicroframeworkSettings | undefined): Promise<voi
     username: process.env.TYPEORM_USERNAME,
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
-    synchronize: process.env.NODE_ENV === 'development' ? process.env.TYPEORM_SYNCHRONIZE : false,
+    synchronize: false,
     logging: process.env.TYPEORM_LOGGING,
     entities: [process.env.TYPEORM_ENTITIES],
     migrations: [process.env.TYPEORM_MIGRATIONS]
