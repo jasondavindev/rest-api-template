@@ -1,9 +1,9 @@
-import { MicroframeworkSettings } from 'microframework-w3tec';
-import { Container } from 'typedi';
-import { createConnection, getConnectionOptions, useContainer } from 'typeorm';
+import { MicroframeworkSettings } from 'microframework-w3tec'
+import { Container } from 'typedi'
+import { createConnection, getConnectionOptions, useContainer } from 'typeorm'
 
 export default async (settings: MicroframeworkSettings | undefined): Promise<void> => {
-  const loadedConnectionOptions = await getConnectionOptions();
+  const loadedConnectionOptions = await getConnectionOptions()
 
   const connectionOptions = Object.assign(loadedConnectionOptions, {
     type: process.env.TYPEORM_CONNECTION, // See createConnection options for valid types
@@ -16,13 +16,13 @@ export default async (settings: MicroframeworkSettings | undefined): Promise<voi
     logging: process.env.TYPEORM_LOGGING,
     entities: [process.env.TYPEORM_ENTITIES],
     migrations: [process.env.TYPEORM_MIGRATIONS]
-  });
+  })
 
-  useContainer(Container);
-  const connection = await createConnection(connectionOptions);
+  useContainer(Container)
+  const connection = await createConnection(connectionOptions)
 
   if (settings) {
-    settings.setData('connection', connection);
-    settings.onShutdown(() => connection.close());
+    settings.setData('connection', connection)
+    settings.onShutdown(() => connection.close())
   }
-};
+}

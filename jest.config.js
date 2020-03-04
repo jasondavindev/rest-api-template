@@ -1,7 +1,7 @@
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
-const { compilerOptions } = require('./tspaths');
-const merge = require('merge');
-const tsPreset = require('ts-jest/jest-preset');
+const { pathsToModuleNameMapper } = require('ts-jest/utils')
+const { compilerOptions } = require('./tspaths')
+const merge = require('merge')
+const tsPreset = require('ts-jest/jest-preset')
 
 module.exports = merge.recursive(tsPreset, {
   clearMocks: true,
@@ -14,4 +14,4 @@ module.exports = merge.recursive(tsPreset, {
   transform: {
     '^.+\\.ts$': 'ts-jest'
   }
-});
+})
