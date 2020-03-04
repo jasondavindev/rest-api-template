@@ -1,14 +1,14 @@
-import { Application } from 'express';
-import { MicroframeworkSettings } from 'microframework-w3tec';
-import path from 'path';
-import { createExpressServer } from 'routing-controllers';
+import { Application } from 'express'
+import { MicroframeworkSettings } from 'microframework-w3tec'
+import path from 'path'
+import { createExpressServer } from 'routing-controllers'
 
 /** Middlewares */
-import { CompressionMiddleware } from '~/middlewares/CompressionMiddleware';
-import { CorsMiddleware } from '~/middlewares/CorsMiddleware';
-import { ErrorHandlerMiddleware } from '~/middlewares/ErrorHandlerMiddleware';
-import { RateLimitMiddleware } from '~/middlewares/RateLimitMiddleware';
-import { SecurityMiddleware } from '~/middlewares/SecurityMiddleware';
+import { CompressionMiddleware } from '~/middlewares/CompressionMiddleware'
+import { CorsMiddleware } from '~/middlewares/CorsMiddleware'
+import { ErrorHandlerMiddleware } from '~/middlewares/ErrorHandlerMiddleware'
+import { RateLimitMiddleware } from '~/middlewares/RateLimitMiddleware'
+import { SecurityMiddleware } from '~/middlewares/SecurityMiddleware'
 
 export default (settings: MicroframeworkSettings | undefined): void => {
   if (settings) {
@@ -25,8 +25,8 @@ export default (settings: MicroframeworkSettings | undefined): void => {
         CompressionMiddleware,
         ErrorHandlerMiddleware
       ]
-    });
+    })
 
-    app.listen(3000);
+    app.listen(3000)
   }
-};
+}

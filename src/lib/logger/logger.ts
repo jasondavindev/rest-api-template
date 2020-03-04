@@ -1,8 +1,8 @@
-import * as path from 'path';
-import * as winston from 'winston';
+import * as path from 'path'
+import * as winston from 'winston'
 
 export class Logger {
-  public static DEFAULT_SCOPE = 'app';
+  public static DEFAULT_SCOPE = 'app'
 
   private static parsePathToScope(filepath: string): string {
     if (filepath.indexOf(path.sep) >= 0) {
@@ -12,41 +12,41 @@ export class Logger {
         .replace(`${path.sep}dist${path.sep}`, '')
         .replace('.ts', '')
         .replace('.js', '')
-        .replace(path.sep, ':');
+        .replace(path.sep, ':')
     }
 
-    return filepath;
+    return filepath
   }
 
-  private scope: string;
+  private scope: string
 
   constructor(scope?: string) {
-    this.scope = Logger.parsePathToScope(scope || Logger.DEFAULT_SCOPE);
+    this.scope = Logger.parsePathToScope(scope || Logger.DEFAULT_SCOPE)
   }
 
   public debug(message: string, ...args: any[]): void {
-    this.log('debug', message, args);
+    this.log('debug', message, args)
   }
 
   public info(message: string, ...args: any[]): void {
-    this.log('info', message, args);
+    this.log('info', message, args)
   }
 
   public warn(message: string, ...args: any[]): void {
-    this.log('warn', message, args);
+    this.log('warn', message, args)
   }
 
   public error(message: string, ...args: any[]): void {
-    this.log('error', message, args);
+    this.log('error', message, args)
   }
 
   private log(level: string, message: string, args: any[]): void {
     if (winston) {
-      winston[level](`${this.formatScope()} ${message}`, args);
+      winston[level](`${this.formatScope()} ${message}`, args)
     }
   }
 
   private formatScope(): string {
-    return `[${this.scope}]`;
+    return `[${this.scope}]`
   }
 }
