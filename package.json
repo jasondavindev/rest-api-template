@@ -9,7 +9,7 @@
     "start:dev": "yarn nodemon",
     "start": "ts-node src/index.ts",
     "format": "prettier --config ./.prettierrc --no-editorconfig --write \"**/*.*(md|js|ts|vue|json|css|sass|yaml|yml)\" --ignore-path \"docker/**\"",
-    "lint": "eslint 'src/**/*.ts' --fix",
+    "lint": "eslint 'src/**/*.ts' --fix && eslint '__tests__/**/*.ts' --fix",
     "formalint": "yarn format && yarn lint",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
@@ -25,6 +25,7 @@
     "pg": "^7.18.2",
     "reflect-metadata": "^0.1.10",
     "routing-controllers": "^0.8.1-alpha.2",
+    "tspath": "^1.3.7",
     "typedi": "^0.8.0",
     "typeorm": "0.2.9",
     "typeorm-typedi-extensions": "^0.2.3",

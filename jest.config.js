@@ -1,5 +1,5 @@
 const { pathsToModuleNameMapper } = require('ts-jest/utils')
-const { compilerOptions } = require('./tspaths')
+const { compilerOptions } = require('./tsconfig')
 const merge = require('merge')
 const tsPreset = require('ts-jest/jest-preset')
 
