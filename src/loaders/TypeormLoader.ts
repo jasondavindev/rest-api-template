@@ -1,22 +1,21 @@
 import { MicroframeworkSettings } from 'microframework-w3tec'
 import { Container } from 'typedi'
-import { createConnection, getConnectionOptions, useContainer } from 'typeorm'
+import { createConnection, ConnectionOptions, useContainer } from 'typeorm'
 
 export default async (settings: MicroframeworkSettings | undefined): Promise<void> => {
-  const loadedConnectionOptions = await getConnectionOptions()
-
-  const connectionOptions = Object.assign(loadedConnectionOptions, {
-    type: process.env.TYPEORM_CONNECTION, // See createConnection options for valid types
+  const connectionOptions: ConnectionOptions = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    type: process.env.TYPEORM_TYPE as any, // See createConnection options for valid types
     host: process.env.TYPEORM_HOST,
-    port: process.env.TYPEORM_PORT,
+    port: Number(process.env.TYPEORM_PORT),
     username: process.env.TYPEORM_USERNAME,
     password: process.env.TYPEORM_PASSWORD,
-    database: process.env.TYPEORM_DATABASE,
+    database: `${process.env.TYPEORM_DATABASE}_${process.env.NODE_ENV}`,
     synchronize: false,
-    logging: process.env.TYPEORM_LOGGING,
+    logging: Boolean(process.env.TYPEORM_LOGGING),
     entities: [process.env.TYPEORM_ENTITIES],
     migrations: [process.env.TYPEORM_MIGRATIONS]
-  })
+  }
 
   useContainer(Container)
   const connection = await createConnection(connectionOptions)
