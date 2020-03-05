@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as path from 'path'
 import * as winston from 'winston'
 

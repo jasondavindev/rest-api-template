@@ -9,7 +9,7 @@
     "start:dev": "yarn nodemon",
     "start": "ts-node src/index.ts",
     "format": "prettier --config ./.prettierrc --no-editorconfig --write \"**/*.*(md|js|ts|vue|json|css|sass|yaml|yml)\" --ignore-path \"docker/**\"",
-    "lint": "eslint 'src/**/*.ts' --fix",
+    "lint": "eslint 'src/**/*.ts' --fix && eslint '__tests__/**/*.ts' --fix",
     "formalint": "yarn format && yarn lint",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
