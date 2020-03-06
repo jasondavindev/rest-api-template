@@ -4,7 +4,9 @@
   "version": "0.0.1",
   "main": "src/app.ts",
   "scripts": {
+    "pretest": "NODE_ENV=test yarn typeorm -c test migration:run",
     "test": "yarn jest",
+    "posttest": "NODE_ENV=test yarn typeorm -c test schema:drop",
     "build": "yarn tsc",
     "start:dev": "yarn nodemon",
     "start": "ts-node src/index.ts",
