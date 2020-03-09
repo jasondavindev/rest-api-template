@@ -50,7 +50,7 @@ function dk {
 function pkg_install {
   CD=$(pwd)
   cd $PROJECT_BASE
-  docker-compose run --rm "app" yarn
+  docker-compose run --rm app "npm i"
   cd $CD
 }
 

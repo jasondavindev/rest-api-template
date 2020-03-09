@@ -7,9 +7,9 @@ WORKDIR /home/node/app
 
 USER node
 
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
-RUN yarn install
+RUN npm i
 
 COPY . .
 

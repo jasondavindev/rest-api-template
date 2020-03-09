@@ -7,3 +7,5 @@ README.md
 docker/volumes
 generator.sh
 .git
+__tests__
+dist
