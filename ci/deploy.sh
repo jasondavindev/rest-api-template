@@ -1,7 +1,7 @@
 # Deploy script
 
 echo "Pull new docker image"
-export ECR_CONFIG=`aws ecr get-login --region us-east-1 --no-include-email`
+export ECR_CONFIG=`aws ecr get-login --region ${REGISTRY_REGION} --no-include-email`
 echo $ECR_CONFIG | sh
 
 echo "Pull new images"
