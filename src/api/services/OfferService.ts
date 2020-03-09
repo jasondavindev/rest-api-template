@@ -1,7 +1,8 @@
 import { Service } from 'typedi'
 import { OrmRepository } from 'typeorm-typedi-extensions'
 
-import { Offer } from '~/models/Offer'
+import { Offer } from '@/database/models/Offer'
+
 import { OfferRepository } from '~/repositories/OfferRepository'
 
 @Service()
