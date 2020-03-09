@@ -5,7 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "pretest": "NODE_ENV=test yarn typeorm -c test migration:run",
-    "test": "yarn jest",
+    "test": "yarn jest --maxWorkers=0",
     "posttest": "NODE_ENV=test yarn typeorm -c test schema:drop",
     "start:dev": "yarn nodemon",
     "start": "ts-node -r tsconfig-paths/register -T src/app.ts",
