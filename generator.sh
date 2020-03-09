@@ -28,6 +28,7 @@ if [[ -n $TARGET_REPO ]]; then
 fi
 
 sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" dev.sh
+sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" ci/deploy.sh
 cp .env.example .env
 rm generator.sh
 
