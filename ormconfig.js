@@ -8,7 +8,7 @@ const envs = ['production', 'test', 'development'].map((env) => ({
   synchronize: false,
   logging: Boolean(process.env.TYPEORM_LOGGING),
   entities: [process.env.TYPEORM_ENTITIES],
-  migrations: [process.env.TYPEORM_MIGRATIONS],
+  migrations: [process.env.IS_SEED ? process.env.TYPEORM_SEEDS : process.env.TYPEORM_MIGRATIONS],
   type: process.env.TYPEORM_TYPE
 }))
 
