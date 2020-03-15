@@ -1,32 +1,13 @@
-import { Application } from 'express'
 import { MicroframeworkSettings } from 'microframework-w3tec'
-import path from 'path'
-import { createExpressServer } from 'routing-controllers'
 
-/** Middlewares */
-import { CompressionMiddleware } from '~/middlewares/CompressionMiddleware'
-import { CorsMiddleware } from '~/middlewares/CorsMiddleware'
-import { ErrorHandlerMiddleware } from '~/middlewares/ErrorHandlerMiddleware'
-import { RateLimitMiddleware } from '~/middlewares/RateLimitMiddleware'
-import { SecurityMiddleware } from '~/middlewares/SecurityMiddleware'
+import { App } from '@/app'
 
 export default (settings: MicroframeworkSettings | undefined): void => {
   if (settings) {
-    const app: Application = createExpressServer({
-      cors: true,
-      classTransformer: false,
-      routePrefix: '/api',
-      defaultErrorHandler: false,
-      controllers: [`${path.resolve(__dirname, '..', 'api', 'controllers')}/*.ts`],
-      middlewares: [
-        RateLimitMiddleware,
-        SecurityMiddleware,
-        CorsMiddleware,
-        CompressionMiddleware,
-        ErrorHandlerMiddleware
-      ]
-    })
+    settings.setData('app', App)
 
-    app.listen(3000)
+    if (process.env.NODE_ENV !== 'test') {
+      App.listen(Number(process.env.NODE_PORT))
+    }
   }
 }

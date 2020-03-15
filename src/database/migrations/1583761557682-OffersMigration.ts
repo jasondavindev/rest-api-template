@@ -17,7 +17,17 @@ export class OffersMigration1583761557682 implements MigrationInterface {
           },
           {
             name: 'seats',
-            type: 'varchar'
+            type: 'integer'
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()'
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()'
           }
         ]
       })

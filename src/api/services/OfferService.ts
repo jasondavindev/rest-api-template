@@ -1,4 +1,5 @@
 import { Service } from 'typedi'
+import { FindManyOptions } from 'typeorm'
 import { OrmRepository } from 'typeorm-typedi-extensions'
 
 import { Offer } from '@/database/models/Offer'
@@ -9,8 +10,8 @@ import { OfferRepository } from '~/repositories/OfferRepository'
 export class OfferService {
   constructor(@OrmRepository() private offerRepository: OfferRepository) {}
 
-  public async find(): Promise<Offer[]> {
-    return this.offerRepository.find()
+  public async find(options?: FindManyOptions): Promise<Offer[]> {
+    return this.offerRepository.find(options)
   }
 
   public async findOne(id: number): Promise<Offer | undefined> {
@@ -22,8 +23,7 @@ export class OfferService {
     return offer
   }
 
-  public async update(offerId: number, offer: Offer) {
-    Object.assign(offer, { id: offerId })
+  public async update(offer: Offer) {
     return this.offerRepository.save(offer)
   }
 }
