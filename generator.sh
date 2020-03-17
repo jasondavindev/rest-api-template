@@ -29,6 +29,8 @@ fi
 
 sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" dev.sh
 sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" ci/deploy.sh
+sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" .env.example
+
 cp .env.example .env
 rm generator.sh
 
