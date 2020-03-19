@@ -4,10 +4,7 @@
   "version": "0.0.1",
   "main": "src/server.ts",
   "scripts": {
-    "pre-test": "NODE_ENV=test yarn typeorm -c test migration:run",
-    "test": "yarn pre-test && jest --maxWorkers=0 '__tests__' && yarn post-test",
-    "post-test": "NODE_ENV=test yarn typeorm -c test schema:drop",
-    "test:models": "jest './__tests__/models'",
+    "test": "NODE_ENV=test jest --maxWorkers=0",
     "start:dev": "yarn nodemon",
     "start": "ts-node -r tsconfig-paths/register -T src/server.ts",
     "format": "prettier --config ./.prettierrc --no-editorconfig --write \"**/*.*(md|js|ts|vue|json|css|sass|yaml|yml)\"",
@@ -34,6 +31,7 @@
     "express": "^4.16.2",
     "express-rate-limit": "^5.1.1",
     "helmet": "^3.9.0",
+    "http-status-codes": "^1.4.0",
     "microframework-w3tec": "^0.6.3",
     "pg": "^7.18.2",
     "reflect-metadata": "^0.1.10",
@@ -47,6 +45,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
     "eslint": "^6.8.0",
@@ -62,6 +61,7 @@
     "merge": "^1.2.1",
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1",
+    "supertest": "^4.0.2",
     "ts-jest": "^25.2.1"
   },
   "husky": {
