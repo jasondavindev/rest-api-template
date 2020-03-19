@@ -1,13 +1,18 @@
 import request from 'supertest'
+import { getRepository } from 'typeorm'
+
+import Offer from '@/database/models/Offer'
 
 import { bootstrapApp, BootstrapSettings } from '../utils/bootstrap'
-import { Offer } from '@/database/models/Offer'
-import { getRepository } from 'typeorm'
 
 describe('/api/v1/offers', () => {
   let settings: BootstrapSettings
-  beforeAll(async () => (settings = await bootstrapApp()))
-  afterAll(async () => await settings.connection.close())
+  beforeAll(async () => {
+    settings = await bootstrapApp()
+  })
+  afterAll(async () => {
+    await settings.connection.close()
+  })
   afterEach(async () => getRepository(Offer).delete({}))
 
   // -------------------------------------------------------------------------

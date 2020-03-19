@@ -4,7 +4,7 @@ import { ExpressErrorMiddlewareInterface, HttpError, Middleware } from 'routing-
 import { Logger, LoggerInterface } from '@/decorators/Logger'
 
 @Middleware({ type: 'after' })
-export class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
+export default class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
   private isProduction
 
   @Logger(__filename) private log: LoggerInterface

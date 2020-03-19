@@ -2,12 +2,12 @@ import { Service } from 'typedi'
 import { FindManyOptions } from 'typeorm'
 import { OrmRepository } from 'typeorm-typedi-extensions'
 
-import { Offer } from '@/database/models/Offer'
+import Offer from '@/database/models/Offer'
 
-import { OfferRepository } from '~/repositories/OfferRepository'
+import OfferRepository from '~/repositories/OfferRepository'
 
 @Service()
-export class OfferService {
+export default class OfferService {
   constructor(@OrmRepository() private offerRepository: OfferRepository) {}
 
   public async find(options?: FindManyOptions): Promise<Offer[]> {

@@ -1,9 +1,9 @@
-import { MigrationInterface, QueryRunner, getManager } from 'typeorm'
+import { MigrationInterface, getManager } from 'typeorm'
 
-import { Offer } from '@/database/models/Offer'
+import Offer from '@/database/models/Offer'
 
-export class CreateOffer1584293099515 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<any> {
+export default class CreateOffer1584293099515 implements MigrationInterface {
+  public async up() {
     const manager = getManager(process.env.NODE_ENV)
 
     const offer = new Offer()
@@ -13,5 +13,5 @@ export class CreateOffer1584293099515 implements MigrationInterface {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public async down(queryRunner: QueryRunner): Promise<any> {}
+  public async down() {}
 }

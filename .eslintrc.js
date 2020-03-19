@@ -13,7 +13,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: 'module',
-    project: resolve(__dirname, 'tsconfig.json')
+    project: [resolve(__dirname, 'tsconfig.json'), resolve(__dirname, '__tests__', 'tsconfig.json')]
   },
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'import', 'import-helpers', 'prettier'],
@@ -40,7 +40,6 @@ module.exports = {
         js: 'never'
       }
     ],
-    'import/prefer-default-export': 0,
     'no-useless-constructor': 'off',
     'comma-dangle': ['error', 'never'],
     'object-curly-newline': 0,
