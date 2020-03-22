@@ -1,5 +1,6 @@
 import { Container } from 'typedi'
 import { Connection, createConnection, useContainer } from 'typeorm'
+
 import { connectionOptions } from '@/loaders/TypeormLoader'
 
 export const createDatabaseConnection = async (): Promise<Connection> => {
@@ -8,6 +9,4 @@ export const createDatabaseConnection = async (): Promise<Connection> => {
   return connection
 }
 
-export const closeDatabase = (connection: Connection) => {
-  return connection.close()
-}
+export const closeDatabase = (connection: Connection) => connection.close()

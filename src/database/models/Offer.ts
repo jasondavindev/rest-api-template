@@ -1,9 +1,9 @@
 import { Column, Entity } from 'typeorm'
 
-import { BaseEntity } from '@/database/models/BaseEntity'
+import BaseEntity from '@/database/models/BaseEntity'
 
 @Entity({ name: 'offers' })
-export class Offer extends BaseEntity<Offer> {
+export default class Offer extends BaseEntity<Offer> {
   @Column({ default: 0, unsigned: true })
   public seats: number
 

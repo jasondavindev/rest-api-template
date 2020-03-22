@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
-export class OffersMigration1583761557682 implements MigrationInterface {
+export default class OffersMigration1583761557682 implements MigrationInterface {
   name = 'OffersMigration1583761557682'
 
   public async up(queryRunner: QueryRunner) {

@@ -1,7 +1,7 @@
 import { IsDate } from 'class-validator'
 import { Column, PrimaryGeneratedColumn } from 'typeorm'
 
-export class BaseEntity<T> {
+export default class BaseEntity<T> {
   constructor(properties?: T) {
     if (properties) {
       Object.assign(this, properties)

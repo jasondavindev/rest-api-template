@@ -3,9 +3,9 @@ import { NOT_FOUND, CREATED, BAD_REQUEST } from 'http-status-codes'
 import { JsonController, Put, Param, Get, HttpError, Post, Body, Res } from 'routing-controllers'
 import { Container } from 'typedi'
 
-import { Offer } from '@/database/models/Offer'
+import Offer from '@/database/models/Offer'
 
-import { OfferService } from '~/services/OfferService'
+import OfferService from '~/services/OfferService'
 
 @JsonController('/v1/offers')
 export default class OfferController {

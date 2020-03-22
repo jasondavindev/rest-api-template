@@ -2,7 +2,7 @@
 import * as path from 'path'
 import * as winston from 'winston'
 
-export class Logger {
+export default class Logger {
   public static DEFAULT_SCOPE = 'app'
 
   private static parsePathToScope(filepath: string): string {
