@@ -2,14 +2,13 @@ version: '3.7'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: ${PROJECT_NAME}
+    image: node:12.16.1-stretch
     container_name: '${PROJECT_NAME}-api'
     env_file: .env
+    command: 'yarn start:dev'
+    working_dir: /app
     volumes:
-      - $PWD:/home/node/app
+      - $PWD:/app
     ports:
       - 3000:3000
     networks:

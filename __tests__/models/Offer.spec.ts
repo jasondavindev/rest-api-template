@@ -1,4 +1,4 @@
-import Offer from '@/database/models/Offer'
+import { Offer } from '@/database/models'
 
 test('Offer model', () => {
   const offer = new Offer()

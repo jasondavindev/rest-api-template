@@ -27,7 +27,8 @@
     ],
     "paths": {
       "~/*": ["src/api/*"],
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "test/*": ["__tests__/*"]
     },
     "rootDir": ".",
     "baseUrl": "."

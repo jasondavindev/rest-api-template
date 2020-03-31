@@ -1,9 +1,8 @@
 import request from 'supertest'
+import { bootstrapApp, BootstrapSettings } from 'test/bootstrap'
 import { getRepository } from 'typeorm'
 
-import Offer from '@/database/models/Offer'
-
-import { bootstrapApp, BootstrapSettings } from '../utils/bootstrap'
+import { Offer } from '@/database/models'
 
 describe('/api/v1/offers', () => {
   let settings: BootstrapSettings
@@ -20,9 +19,7 @@ describe('/api/v1/offers', () => {
   // -------------------------------------------------------------------------
 
   it('GET: /1 returns 404', async () => {
-    await request(settings.app)
-      .get('/api/v1/offers/1')
-      .expect(404)
+    await request(settings.app).get('/api/v1/offers/1').expect(404)
   })
 
   it('POST / return 201', async () => {

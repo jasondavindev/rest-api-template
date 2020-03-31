@@ -2,9 +2,9 @@ import { Service } from 'typedi'
 import { FindManyOptions } from 'typeorm'
 import { OrmRepository } from 'typeorm-typedi-extensions'
 
-import Offer from '@/database/models/Offer'
+import { Offer } from '@/database/models'
 
-import OfferRepository from '~/repositories/OfferRepository'
+import { OfferRepository } from '~/repositories'
 
 @Service()
 export default class OfferService {
