@@ -1,5 +1,5 @@
 import { IsDate } from 'class-validator'
-import { Column, PrimaryGeneratedColumn } from 'typeorm'
+import { Column } from 'typeorm'
 
 export default class BaseEntity<T> {
   constructor(properties?: T) {
@@ -7,10 +7,6 @@ export default class BaseEntity<T> {
       Object.assign(this, properties)
     }
   }
-
-  @Column()
-  @PrimaryGeneratedColumn()
-  id?: number
 
   @Column({ type: 'timestamp', default: 'now()', name: 'created_at' })
   @IsDate()
