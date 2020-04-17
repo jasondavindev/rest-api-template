@@ -73,6 +73,9 @@
   "lint-staged": {
     "src/**/*.ts": [
       "yarn formalint"
+    ],
+    "__tests__/**/*.ts": [
+      "yarn formalint"
     ]
   }
 }
