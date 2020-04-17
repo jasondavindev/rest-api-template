@@ -64,6 +64,8 @@ Run
 ```bash
 devhelp                Prints devhelp
 
+db_setup               Setup environment
+
 dkbuild                Builds project docker image
 
 pkg_install            Install node packages
