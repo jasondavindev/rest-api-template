@@ -7,8 +7,10 @@ const envs = ['production', 'test', 'development'].map((env) => ({
   database: `${process.env.TYPEORM_DATABASE}_${env}`,
   synchronize: false,
   logging: Boolean(process.env.TYPEORM_LOGGING),
-  entities: [process.env.TYPEORM_ENTITIES],
-  migrations: [process.env.IS_SEED ? process.env.TYPEORM_SEEDS : process.env.TYPEORM_MIGRATIONS],
+  entities: ['src/database/models/**/*.ts'],
+  migrations: [
+    process.env.IS_SEED ? 'src/database/seeds/**/*.ts' : 'src/database/migrations/**/*.ts'
+  ],
   type: process.env.TYPEORM_TYPE
 }))
 
