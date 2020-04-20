@@ -18,7 +18,7 @@
     "create:seed": "yarn typeorm migration:create -d ${TYPEORM_SEEDS_DIR}",
     "run:migrations:dev": "yarn typeorm migration:run -c development",
     "run:migrations:test": "yarn typeorm migration:run -c test",
-    "run:seeds": "NODE_ENV=development IS_SEED=1 typeorm migration:run -c development"
+    "run:seeds": "NODE_ENV=development IS_SEED=1 yarn typeorm migration:run -c development"
   },
   "dependencies": {
     "class-transformer": "^0.2.3",

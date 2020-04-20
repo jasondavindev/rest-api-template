@@ -9,22 +9,53 @@ import {
   Res,
   Patch,
   BodyParam,
-  Delete
+  Delete,
+  QueryParam
 } from 'routing-controllers'
 import { Container } from 'typedi'
+import { getRepository } from 'typeorm'
 
 import { Offer } from '@/database/models'
+import { pagination, mountDynamicWhereQueryBuilder } from '@/utils/QueryBuilder'
 
 import { OfferService } from '~/services'
 
 @JsonController('/v1/offers')
 export default class OfferController {
+  private static readonly DEFAULT_LIMIT_PER_PAGE = 10
+
   constructor(private service: OfferService) {
     this.service = Container.get(OfferService)
   }
 
+  @Get('/')
+  async index(
+    @QueryParam('page') page = 1,
+    @QueryParam('perPage') perPage: number = OfferController.DEFAULT_LIMIT_PER_PAGE,
+    // Params
+    @QueryParam('seats') seats: number
+  ) {
+    let queryBuilder = getRepository(Offer).createQueryBuilder('offer')
+
+    if (perPage > OfferController.DEFAULT_LIMIT_PER_PAGE) throw new HttpError(BAD_REQUEST, 'The limit per page exceeded the limit')
+
+    queryBuilder = mountDynamicWhereQueryBuilder(queryBuilder, {
+      'offer.seats': seats
+    })
+
+    const [results, total] = await pagination(queryBuilder, page, perPage).getManyAndCount()
+    const pages = Math.ceil(total / perPage)
+
+    return {
+      total,
+      pages,
+      results,
+      currentPage: Number(page) || 1
+    }
+  }
+
   @Get('/:id')
-  async index(@Param('id') id: number) {
+  async show(@Param('id') id: number) {
     const offer = await this.service.findOne({ id })
 
     if (!offer) throw new HttpError(NOT_FOUND, 'Offer not found')
