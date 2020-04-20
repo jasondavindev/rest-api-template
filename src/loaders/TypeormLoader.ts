@@ -2,15 +2,17 @@ import { MicroframeworkSettings } from 'microframework-w3tec'
 import { Container } from 'typedi'
 import { createConnection, ConnectionOptions, useContainer } from 'typeorm'
 
+import envs from '@/config/envs'
+
 export const connectionOptions: ConnectionOptions = {
   type: 'postgres',
-  host: process.env.TYPEORM_HOST,
-  port: Number(process.env.TYPEORM_PORT),
-  username: process.env.TYPEORM_USERNAME,
-  password: process.env.TYPEORM_PASSWORD,
-  database: `${process.env.TYPEORM_DATABASE}_${process.env.NODE_ENV}`,
+  host: envs.db.host,
+  port: envs.db.port,
+  username: envs.db.username,
+  password: envs.db.password,
+  database: `${envs.db.database}_${process.env.NODE_ENV}`,
   synchronize: false,
-  logging: Boolean(process.env.TYPEORM_LOGGING),
+  logging: envs.db.logging,
   entities: ['src/database/models/**/*.ts'],
   migrations: ['src/database/migrations/**/*.ts']
 }

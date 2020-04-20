@@ -8,6 +8,7 @@ import { Connection, UpdateResult } from 'typeorm'
 
 import { Offer } from '@/database/models'
 
+import { FusionAuthMiddleware } from '~/middlewares'
 import { OfferService } from '~/services'
 
 const resourcePath = (id?: number) => (id ? `/api/v1/offers/${id}` : '/api/v1/offers')
@@ -18,6 +19,8 @@ describe('/api/v1/offers', () => {
 
   beforeAll(async () => {
     ({ app, connection } = await bootstrapApp())
+
+    FusionAuthMiddleware.prototype.use = jest.fn(async (req, res, next) => next())
   })
 
   afterAll(async () => {

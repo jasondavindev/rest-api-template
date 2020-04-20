@@ -21,6 +21,7 @@
     "run:seeds": "NODE_ENV=development IS_SEED=1 yarn typeorm migration:run -c development"
   },
   "dependencies": {
+    "@fusionauth/typescript-client": "^1.15.8",
     "class-transformer": "^0.2.3",
     "class-validator": "0.10.1",
     "compression": "^1.7.1",
