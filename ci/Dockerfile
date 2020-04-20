@@ -7,12 +7,16 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm i --only=prod
+RUN yarn --prod
 
 COPY . .
 
 USER node
 
 EXPOSE 3000
+
+ARG NODE_ENV
+
+ENV NODE_ENV=$NODE_ENV
 
 CMD [ "yarn", "start" ]

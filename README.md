@@ -11,6 +11,8 @@ This repository is a boilerplate for to build REST APIs with Node.Js, using Expr
 - Integrated Testing Tool thanks to [Jest](https://facebook.github.io/jest)
 - Code linter to [ESLint](https://eslint.org/)
 - Debug mode for dockerized environment
+- Authentication using [FusionAuth](https://fusionauth.io/)
+- [GitLab CI](https://docs.gitlab.com/ee/ci/) for deploy on the AWS Platform
 
 ## Creating a based project
 

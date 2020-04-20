@@ -6,7 +6,7 @@ import Container from 'typedi'
 import envs from '@/config/envs'
 import { UserRegistration, FusionAuthClient } from '@fusionauth/typescript-client'
 
-import FusionAuthService from '~/services/FusionAuthService'
+import { FusionAuthService } from '~/services'
 
 @Middleware({ type: 'before' })
 export default class FusionAuthMiddleware implements ExpressMiddlewareInterface {
