@@ -10,7 +10,7 @@
     "start:debug": "nodemon --config nodemon.debug.json",
     "start": "ts-node -r tsconfig-paths/register -T src/server.ts",
     "format": "prettier --config ./.prettierrc --no-editorconfig --write \"{src,__tests__}/**/*.*(ts|json|yaml|yml)\"",
-    "lint": "eslint 'src/**/*.ts' --fix && eslint '__tests__/**/*.ts' --fix",
+    "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts' --fix",
     "formalint": "yarn format && yarn lint",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "create:migration": "yarn typeorm migration:create -d ${TYPEORM_MIGRATIONS_DIR}",

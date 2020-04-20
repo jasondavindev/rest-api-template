@@ -4,7 +4,7 @@ import { OK, NOT_FOUND, CREATED, BAD_REQUEST, NO_CONTENT } from 'http-status-cod
 import request from 'supertest'
 import { bootstrapApp } from 'test/bootstrap'
 import { cleanTables, populateOfferTable, createOffer, buildOffer } from 'test/factories'
-import { Connection } from 'typeorm'
+import { Connection, UpdateResult } from 'typeorm'
 
 import { Offer } from '@/database/models'
 
@@ -82,7 +82,9 @@ describe('/api/v1/offers', () => {
 
     describe('when offer was not updated', () => {
       it('returns BAD_REQUEST', async () => {
-        jest.spyOn(OfferService.prototype, 'update').mockResolvedValue({ affected: 0 } as any)
+        jest
+          .spyOn(OfferService.prototype, 'update')
+          .mockResolvedValue({ affected: 0 } as UpdateResult)
         const [offer] = await populateOfferTable(1, { seats: 1 } as Offer)
 
         await request(app)

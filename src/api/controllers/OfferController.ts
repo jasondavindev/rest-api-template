@@ -6,7 +6,6 @@ import {
   Get,
   HttpError,
   Post,
-  Body,
   Res,
   Patch,
   BodyParam,
