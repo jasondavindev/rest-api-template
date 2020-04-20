@@ -1,12 +1,12 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm'
+import { MigrationInterface, QueryRunner, Table } from 'typeorm'
 
-export default class OffersMigration1583761557682 implements MigrationInterface {
-  name = 'OffersMigration1583761557682'
+export default class CreateCourse1583761557123 implements MigrationInterface {
+  name = 'CreateCourse1583761557123'
 
   public async up(queryRunner: QueryRunner) {
     await queryRunner.createTable(
       new Table({
-        name: 'offers',
+        name: 'courses',
         columns: [
           {
             name: 'id',
@@ -16,13 +16,8 @@ export default class OffersMigration1583761557682 implements MigrationInterface 
             generationStrategy: 'increment'
           },
           {
-            name: 'seats',
-            type: 'integer'
-          },
-          {
-            name: 'course_id',
-            type: 'integer',
-            isNullable: false
+            name: 'name',
+            type: 'varchar'
           },
           {
             name: 'created_at',
@@ -42,20 +37,9 @@ export default class OffersMigration1583761557682 implements MigrationInterface 
         ]
       })
     )
-
-    await queryRunner.createForeignKey(
-      'offers',
-      new TableForeignKey({
-        columnNames: ['course_id'],
-        referencedTableName: 'courses',
-        referencedColumnNames: ['id'],
-        name: 'FK_OFFERS_COURSES'
-      })
-    )
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('offers', 'FK_OFFERS_COURSES')
-    await queryRunner.dropTable('offers')
+    await queryRunner.dropTable('courses')
   }
 }

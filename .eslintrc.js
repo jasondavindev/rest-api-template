@@ -44,7 +44,8 @@ module.exports = {
     'comma-dangle': ['error', 'never'],
     'object-curly-newline': 0,
     '@typescript-eslint/explicit-function-return-type': 'off',
-    'class-methods-use-this': 0
+    'class-methods-use-this': 0,
+    'import/no-cycle': 0
   },
   settings: {
     'import/extensions': ['.js', '.ts'],

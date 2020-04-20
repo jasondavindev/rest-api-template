@@ -9,6 +9,15 @@ export const mountPaginationParams = (page: number, limit: number) => {
   }
 }
 
+export const pagination = <T>(
+  queryBuilder: SelectQueryBuilder<T>,
+  page: number,
+  perPage: number
+) => {
+  const paginationParams = mountPaginationParams(page, perPage)
+  return queryBuilder.limit(paginationParams.limit).offset(paginationParams.skip)
+}
+
 export const mountWhereParams = (column: string, value: number | string) => {
   const paramName = column.split('.').length === 2 ? column.replace('.', '_') : column
 

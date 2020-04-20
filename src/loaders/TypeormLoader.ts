@@ -3,8 +3,7 @@ import { Container } from 'typedi'
 import { createConnection, ConnectionOptions, useContainer } from 'typeorm'
 
 export const connectionOptions: ConnectionOptions = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  type: process.env.TYPEORM_TYPE as any, // See createConnection options for valid types
+  type: 'postgres',
   host: process.env.TYPEORM_HOST,
   port: Number(process.env.TYPEORM_PORT),
   username: process.env.TYPEORM_USERNAME,
@@ -20,8 +19,14 @@ export default async (settings: MicroframeworkSettings | undefined): Promise<voi
   useContainer(Container)
   const connection = await createConnection(connectionOptions)
 
+  if (!connection.isConnected) {
+    throw new Error('No connection')
+  }
+
   if (settings) {
     settings.setData('connection', connection)
-    settings.onShutdown(() => connection.close())
+    settings.onShutdown(async () => {
+      await connection.close()
+    })
   }
 }

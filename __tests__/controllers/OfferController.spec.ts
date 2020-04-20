@@ -3,8 +3,8 @@ import faker from 'faker'
 import { OK, NOT_FOUND, CREATED, BAD_REQUEST, NO_CONTENT } from 'http-status-codes'
 import request from 'supertest'
 import { bootstrapApp } from 'test/bootstrap'
-import { cleanTables, populateOfferTable, createOffer } from 'test/factories'
-import { Connection } from 'typeorm'
+import { cleanTables, populateOfferTable, createOffer, buildOffer } from 'test/factories'
+import { Connection, UpdateResult } from 'typeorm'
 
 import { Offer } from '@/database/models'
 
@@ -47,7 +47,7 @@ describe('/api/v1/offers', () => {
   describe('POST /', () => {
     describe('when offer was created', () => {
       it('returns CREATED', async () => {
-        const offer = createOffer()
+        const offer = await buildOffer()
         await request(app).post(resourcePath()).send({ offer }).expect(CREATED)
       })
     })
@@ -82,7 +82,9 @@ describe('/api/v1/offers', () => {
 
     describe('when offer was not updated', () => {
       it('returns BAD_REQUEST', async () => {
-        jest.spyOn(OfferService.prototype, 'update').mockResolvedValue({ affected: 0 } as any)
+        jest
+          .spyOn(OfferService.prototype, 'update')
+          .mockResolvedValue({ affected: 0 } as UpdateResult)
         const [offer] = await populateOfferTable(1, { seats: 1 } as Offer)
 
         await request(app)

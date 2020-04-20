@@ -10,6 +10,7 @@ This repository is a boilerplate for to build REST APIs with Node.Js, using Expr
 - Easy Exception Handling thanks to [routing-controllers](https://github.com/pleerock/routing-controllers)
 - Integrated Testing Tool thanks to [Jest](https://facebook.github.io/jest)
 - Code linter to [ESLint](https://eslint.org/)
+- Debug mode for dockerized environment
 
 ## Creating a based project
 

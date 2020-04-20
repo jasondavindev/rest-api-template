@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker: Attach to Node",
+      "type": "node",
+      "request": "attach",
+      "cwd": "${workspaceFolder}",
+      "remoteRoot": "/app",
+      "protocol": "inspector",
+      "internalConsoleOptions": "neverOpen",
+      "restart": true,
+      "port": 9229,
+      "localRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "stopOnEntry": false,
+      "smartStep": true
+    }
+  ]
+}
