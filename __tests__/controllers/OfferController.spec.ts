@@ -3,7 +3,7 @@ import faker from 'faker'
 import { OK, NOT_FOUND, CREATED, BAD_REQUEST, NO_CONTENT } from 'http-status-codes'
 import request from 'supertest'
 import { bootstrapApp } from 'test/bootstrap'
-import { cleanTables, populateOfferTable, createOffer } from 'test/factories'
+import { cleanTables, populateOfferTable, createOffer, buildOffer } from 'test/factories'
 import { Connection } from 'typeorm'
 
 import { Offer } from '@/database/models'
@@ -47,7 +47,7 @@ describe('/api/v1/offers', () => {
   describe('POST /', () => {
     describe('when offer was created', () => {
       it('returns CREATED', async () => {
-        const offer = createOffer()
+        const offer = await buildOffer()
         await request(app).post(resourcePath()).send({ offer }).expect(CREATED)
       })
     })

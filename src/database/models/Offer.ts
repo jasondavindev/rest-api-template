@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
 
 import BaseEntity from '@/database/models/BaseEntity'
+import Course from '@/database/models/Course'
 
 @Entity({ name: 'offers' })
 export default class Offer extends BaseEntity<Offer> {
@@ -8,7 +9,11 @@ export default class Offer extends BaseEntity<Offer> {
   id?: number
 
   @Column({ default: 0, unsigned: true })
-  public seats: number
+  seats: number
+
+  @ManyToOne(() => Course, (course) => course.offers)
+  @JoinColumn({ name: 'course_id' })
+  course: Course
 
   decrement() {
     if (this.seats === 0) {
