@@ -11,6 +11,7 @@ services:
       - $PWD:/app
     ports:
       - 3000:3000
+      - 9229:9229
     networks:
       - internal-net
     depends_on:
