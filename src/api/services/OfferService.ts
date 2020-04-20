@@ -1,5 +1,5 @@
 import { Service } from 'typedi'
-import { FindManyOptions } from 'typeorm'
+import { FindManyOptions, FindOneOptions, FindConditions } from 'typeorm'
 import { OrmRepository } from 'typeorm-typedi-extensions'
 
 import { Offer } from '@/database/models'
@@ -8,22 +8,27 @@ import { OfferRepository } from '~/repositories'
 
 @Service()
 export default class OfferService {
-  constructor(@OrmRepository() private offerRepository: OfferRepository) {}
+  constructor(@OrmRepository() private repository: OfferRepository) {}
 
-  public async find(options?: FindManyOptions): Promise<Offer[]> {
-    return this.offerRepository.find(options)
+  public async find(conditions?: FindManyOptions): Promise<Offer[]> {
+    return this.repository.find(conditions)
   }
 
-  public async findOne(id: number): Promise<Offer | undefined> {
-    return this.offerRepository.findOne({ id })
+  public async findOne(
+    conditions: FindConditions<Offer> & FindOneOptions<Offer>
+  ): Promise<Offer | undefined> {
+    return this.repository.findOne(conditions)
   }
 
   public async create(offer: Offer): Promise<Offer | undefined> {
-    await this.offerRepository.save(offer)
-    return offer
+    return this.repository.save(offer)
   }
 
-  public async update(offer: Offer) {
-    return this.offerRepository.save(offer)
+  public async update(conditions: FindConditions<Offer>, offer: Offer) {
+    return this.repository.update(conditions, offer)
+  }
+
+  public async delete(conditions: FindConditions<Offer>) {
+    return this.repository.softDelete(conditions)
   }
 }

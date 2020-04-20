@@ -1,12 +1,21 @@
 import { Offer } from '@/database/models'
 
-test('Offer model', () => {
-  const offer = new Offer()
-  offer.seats = 10
+describe('Offer', () => {
+  describe('when seats is greater than 0', () => {
+    it('decrements seats', () => {
+      const offer = new Offer()
+      offer.seats = 10
 
-  expect(offer.decrement()).toBe(9)
+      expect(offer.decrement()).toBe(9)
+    })
+  })
 
-  offer.seats = 0
+  describe('when seats is less than 1', () => {
+    it('throws a error', () => {
+      const offer = new Offer()
+      offer.seats = 0
 
-  expect(offer.decrement).toThrowError()
+      expect(offer.decrement).toThrowError()
+    })
+  })
 })

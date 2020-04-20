@@ -54,8 +54,23 @@ function pkg_install {
   cd $CD
 }
 
+function db_setup {
+  docker exec -ti ${PROJECT_NAME}-db psql -U postgres -c "create database ENV_PROJECT_NAME_development"
+  docker exec -ti ${PROJECT_NAME}-db psql -U postgres -c "create database ENV_PROJECT_NAME_test"
+}
+
+function setup_dev_environment {
+  docker volume create --name development_postgres
+  docker network create development_network
+  cp .env.example .env
+  pkg_install
+  db_setup
+}
+
 function devhelp {
   echo -e "${GREEN}devhelp${RESTORE}                Prints ${RED}devhelp${RESTORE}"
+  echo -e ""
+  echo -e "${GREEN}db_setup${RESTORE}               ${RED}Setup environment${RESTORE}"
   echo -e ""
   echo -e "${GREEN}dkbuild${RESTORE}                ${RED}Builds project docker image${RESTORE}"
   echo -e ""

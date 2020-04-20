@@ -1,34 +1,122 @@
+import { Application } from 'express'
+import faker from 'faker'
+import { OK, NOT_FOUND, CREATED, BAD_REQUEST, NO_CONTENT } from 'http-status-codes'
 import request from 'supertest'
-import { bootstrapApp, BootstrapSettings } from 'test/bootstrap'
-import { getRepository } from 'typeorm'
+import { bootstrapApp } from 'test/bootstrap'
+import { cleanTables, populateOfferTable, createOffer } from 'test/factories'
+import { Connection } from 'typeorm'
 
 import { Offer } from '@/database/models'
 
+import { OfferService } from '~/services'
+
+const resourcePath = (id?: number) => (id ? `/api/v1/offers/${id}` : '/api/v1/offers')
+
 describe('/api/v1/offers', () => {
-  let settings: BootstrapSettings
+  let app: Application
+  let connection: Connection
+
   beforeAll(async () => {
-    settings = await bootstrapApp()
+    ({ app, connection } = await bootstrapApp())
   })
+
   afterAll(async () => {
-    await settings.connection.close()
-  })
-  afterEach(async () => getRepository(Offer).delete({}))
-
-  // -------------------------------------------------------------------------
-  // Test cases
-  // -------------------------------------------------------------------------
-
-  it('GET: /1 returns 404', async () => {
-    await request(settings.app).get('/api/v1/offers/1').expect(404)
+    await connection.close()
   })
 
-  it('POST / return 201', async () => {
-    await request(settings.app)
-      .post('/api/v1/offers')
-      .send({
-        seats: 10
-      } as Offer)
-      .expect('Content-Type', /json/)
-      .expect(201)
+  afterEach(async () => {
+    await cleanTables(connection, [Offer])
+  })
+
+  describe('GET /:id', () => {
+    describe('when offer exists', () => {
+      it('returns OK', async () => {
+        const [offer] = await populateOfferTable(1)
+
+        await request(app).get(resourcePath(offer.id)).expect(OK)
+      })
+    })
+
+    describe('when offer not exists', () => {
+      it('returns NOT_FOUND', async () => {
+        await request(app).get(resourcePath(faker.random.number())).expect(NOT_FOUND)
+      })
+    })
+  })
+
+  describe('POST /', () => {
+    describe('when offer was created', () => {
+      it('returns CREATED', async () => {
+        const offer = createOffer()
+        await request(app).post(resourcePath()).send({ offer }).expect(CREATED)
+      })
+    })
+
+    describe('when offer was not created', () => {
+      it('returns BAD_REQUEST', async () => {
+        jest.spyOn(OfferService.prototype, 'create').mockResolvedValue(undefined)
+
+        const offer = createOffer()
+        await request(app).post(resourcePath()).send({ offer }).expect(BAD_REQUEST)
+      })
+    })
+  })
+
+  describe('PATCH /:id', () => {
+    describe('when offer not exists', () => {
+      it('returns NOT_FOUND', async () => {
+        await request(app)
+          .patch(`${resourcePath(faker.random.number())}/decrement`)
+          .expect(NOT_FOUND)
+      })
+    })
+
+    describe('when offer was updated', () => {
+      it('returns OK', async () => {
+        const [offer] = await populateOfferTable(1, { seats: 1 } as Offer)
+        await request(app)
+          .patch(`${resourcePath(offer.id)}/decrement`)
+          .expect(OK)
+      })
+    })
+
+    describe('when offer was not updated', () => {
+      it('returns BAD_REQUEST', async () => {
+        jest.spyOn(OfferService.prototype, 'update').mockResolvedValue({ affected: 0 } as any)
+        const [offer] = await populateOfferTable(1, { seats: 1 } as Offer)
+
+        await request(app)
+          .patch(`${resourcePath(offer.id)}/decrement`)
+          .expect(BAD_REQUEST)
+      })
+    })
+  })
+
+  describe('DELETE /:id', () => {
+    describe('when offer exists', () => {
+      describe('and offer was deleted', () => {
+        it('returns NO_CONTENT', async () => {
+          const [offer] = await populateOfferTable(1)
+
+          await request(app).delete(resourcePath(offer.id)).expect(NO_CONTENT)
+        })
+      })
+
+      describe('and offer has deleted_at', () => {
+        it('returns NOT_FOUND', async () => {
+          const [offer] = await populateOfferTable(1)
+          offer.deletedAt = new Date()
+          await connection.getRepository(Offer).save(offer)
+
+          await request(app).delete(resourcePath(offer.id)).expect(NOT_FOUND)
+        })
+      })
+    })
+
+    describe('when offer not exists', () => {
+      it('returns NOT_FOUND', async () => {
+        await request(app).delete(resourcePath(faker.random.number())).expect(NOT_FOUND)
+      })
+    })
   })
 })

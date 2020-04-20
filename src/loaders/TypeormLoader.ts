@@ -12,8 +12,8 @@ export const connectionOptions: ConnectionOptions = {
   database: `${process.env.TYPEORM_DATABASE}_${process.env.NODE_ENV}`,
   synchronize: false,
   logging: Boolean(process.env.TYPEORM_LOGGING),
-  entities: [process.env.TYPEORM_ENTITIES],
-  migrations: [process.env.TYPEORM_MIGRATIONS]
+  entities: ['src/database/models/**/*.ts'],
+  migrations: ['src/database/migrations/**/*.ts']
 }
 
 export default async (settings: MicroframeworkSettings | undefined): Promise<void> => {
