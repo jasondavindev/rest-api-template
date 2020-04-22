@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { Application } from 'express'
 import path from 'path'
 import { createExpressServer } from 'routing-controllers'
