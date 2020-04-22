@@ -3,6 +3,7 @@
 
 TARGET_DIR=$1
 PROJECT_NAME=$2
+PROJECT_HYPHEN_NAME=$(echo $PROJECT_NAME | sed "s/_/\-/g")
 TARGET_REPO=
 CD=$(pwd)
 
@@ -29,7 +30,11 @@ fi
 
 sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" dev.sh
 sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" ci/deploy.sh
+sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" ci/migrate.sh
 sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" .env.example
+sed -i "s/ENV_PROJECT_NAME/${PROJECT_NAME}/g" .gitlab-ci.yml
+sed -i "s/ENV_PROJECT_HYPHEN_NAME/${PROJECT_HYPHEN_NAME}/g" ci/deploy.sh
+sed -i "s/ENV_PROJECT_HYPHEN_NAME/${PROJECT_HYPHEN_NAME}/g" .gitlab-ci.yml
 
 cp .env.example .env
 rm generator.sh

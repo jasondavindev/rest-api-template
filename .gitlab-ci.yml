@@ -1,0 +1,157 @@
+stages:
+  - validate
+  - build
+  - deploy
+  - migrate
+
+test:
+  image: 'node:alpine'
+  services:
+    - 'postgres:alpine'
+  stage: validate
+  tags:
+    - m5
+  variables:
+    NODE_ENV: 'test'
+    POSTGRES_PASSWORD: 'postgres'
+    POSTGRES_USER: 'postgres'
+    POSTGRES_DB: 'ENV_PROJECT_NAME_test'
+    TYPEORM_DATABASE: 'ENV_PROJECT_NAME'
+    TYPEORM_HOST: 'postgres'
+    TYPEORM_PORT: '5432'
+    TYPEORM_USERNAME: 'postgres'
+    TYPEORM_PASSWORD: 'postgres'
+  before_script:
+    - 'yarn install'
+    - 'yarn run:migrations:test'
+  script:
+    - 'yarn test'
+
+lint:
+  image: 'node:alpine'
+  stage: validate
+  tags:
+    - m5
+  before_script:
+    - 'yarn install'
+  script:
+    - 'yarn lint'
+
+audit:
+  image: 'node:alpine'
+  stage: validate
+  tags:
+    - m5
+  before_script:
+    - 'yarn install'
+  script:
+    - 'yarn audit'
+
+.build: &build
+  image: '${DEVOPS_IMAGE_BUILDER}'
+  stage: build
+  tags:
+    - m5
+  before_script:
+    # Start docker in docker
+    - dockerd-entrypoint.sh > /dev/null 2>&1 &
+    - until [ -f /var/run/docker.pid ]; do echo "Starting dockerd" && sleep 1; done
+  script:
+    - $(aws ecr get-login --region "${EC2_REGION}" --no-include-email)
+    - echo "Starting BUILD"
+    - docker build -f ci/Dockerfile --build-arg NODE_ENV=${NODE_ENV} --tag "${REGISTRY_NAME}-${CI_ENVIRONMENT_NAME}:${CI_PIPELINE_ID}" .
+    - docker push "${REGISTRY_NAME}-${CI_ENVIRONMENT_NAME}:${CI_PIPELINE_ID}"
+
+build:homolog:
+  <<: *build
+  environment: homolog
+  except:
+    - master
+  when: manual
+
+build:prod:
+  <<: *build
+  environment: prod
+  only:
+    - master
+
+.access_instance_before_script: &access_instance_before_script |
+  eval $(ssh-agent -s)
+  mkdir -p ~/.ssh
+  chmod 700 ~/.ssh
+  echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+  chmod 400 ~/.ssh/id_rsa
+  echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+.deploy_each_instance: &deploy_each_instance |
+  for host in $EC2_HOSTS; do
+    echo $host
+    scp ${ENV_FILE} ubuntu@$host:~/file.env
+    ssh -t ubuntu@$host 'sudo -s && bash' < ci/deploy.sh
+  done
+
+.deploy: &deploy
+  image: '${DEVOPS_IMAGE_BUILDER}'
+  stage: deploy
+  tags:
+    - m5
+  before_script:
+    - *access_instance_before_script
+  script:
+    - echo "Deploy ${CI_ENVIRONMENT_NAME}"
+    - echo "pwd $(pwd)"
+    - EC2_HOSTS=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=ENV_PROJECT_HYPHEN_NAME-${CI_ENVIRONMENT_NAME}-asg" "Name=instance-state-name,Values=running" --output text --region ${EC2_REGION} --query "Reservations[].Instances[].[PrivateIpAddress]")
+    - echo $EC2_HOSTS
+    - sed -i "s/CI_BUILD_REF_NAME/${CI_PIPELINE_ID}/g" ci/deploy.sh
+    - sed -i "s/ENV_REGISTRY_REGION/${EC2_REGION}/g" ci/deploy.sh
+    - *deploy_each_instance
+
+deploy:homolog:
+  <<: *deploy
+  needs: ['build:homolog']
+  environment: homolog
+  except:
+    - master
+
+deploy:prod:
+  <<: *deploy
+  needs: ['build:prod']
+  environment: prod
+  only:
+    - master
+
+.run_migrations_on_first_instance: &run_migrations_on_first_instance |
+  for host in $EC2_HOSTS; do
+    echo $host
+    ssh -t ubuntu@$host 'sudo -s && bash' < ci/migrate.sh
+    break
+  done
+
+.migrate: &migrate
+  image: '${DEVOPS_IMAGE_BUILDER}'
+  stage: migrate
+  tags:
+    - m5
+  before_script:
+    - *access_instance_before_script
+  script:
+    - echo "Run migrations ${CI_ENVIRONMENT_NAME}"
+    - echo "pwd $(pwd)"
+    - EC2_HOSTS=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=ENV_PROJECT_HYPHEN_NAME-${CI_ENVIRONMENT_NAME}-asg" "Name=instance-state-name,Values=running" --output text --region ${EC2_REGION} --query "Reservations[].Instances[].[PrivateIpAddress]")
+    - echo $EC2_HOSTS
+    - sed -i "s/ENV_CONNECTION_NAME/${NODE_ENV}/g" ci/migrate.sh
+    - *run_migrations_on_first_instance
+
+migrate:homolog:
+  <<: *migrate
+  needs: ['deploy:homolog']
+  environment: homolog
+  except:
+    - master
+
+migrate:prod:
+  <<: *migrate
+  needs: ['deploy:prod']
+  environment: prod
+  only:
+    - master
