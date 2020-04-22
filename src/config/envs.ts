@@ -2,7 +2,7 @@ export default {
   fusionAuth: {
     apiKey: process.env.FUSION_AUTH_API_KEY,
     host: process.env.FUSION_AUTH_HOST,
-    applicationid: process.env.FUSION_AUTH_APPLICATION_ID
+    applicationId: process.env.FUSION_AUTH_APPLICATION_ID
   },
   db: {
     host: process.env.TYPEORM_HOST,

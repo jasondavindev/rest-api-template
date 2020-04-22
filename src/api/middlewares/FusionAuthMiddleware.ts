@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { UNAUTHORIZED } from 'http-status-codes'
+import { FORBIDDEN } from 'http-status-codes'
 import { ExpressMiddlewareInterface, Middleware, HttpError } from 'routing-controllers'
 import Container from 'typedi'
 
@@ -28,12 +28,12 @@ export default class FusionAuthMiddleware implements ExpressMiddlewareInterface 
     } = await this.fusionAuthClient.retrieveUserUsingJWT(req.headers.authorization)
     if (this.verifyUserRolePermission(registrations)) return next()
 
-    throw new HttpError(UNAUTHORIZED, 'Unauthorized')
+    throw new HttpError(FORBIDDEN, 'Forbidden')
   }
 
   public verifyUserRolePermission(registrations: UserRegistration[]): boolean {
     const applicationRegistration: UserRegistration = registrations.find(
-      (registration) => registration.applicationId === envs.fusionAuth.applicationid
+      (registration) => registration.applicationId === envs.fusionAuth.applicationId
     )
 
     if (!applicationRegistration) return false
