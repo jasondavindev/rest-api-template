@@ -2,11 +2,12 @@ import { Application } from 'express'
 import faker from 'faker'
 import { OK, NOT_FOUND, CREATED, BAD_REQUEST, NO_CONTENT } from 'http-status-codes'
 import request from 'supertest'
-import { bootstrapApp } from 'test/bootstrap'
 import { cleanTables, populateOfferTable, createOffer, buildOffer } from 'test/factories'
 import { Connection, UpdateResult } from 'typeorm'
 
 import { Offer } from '@/database/models'
+import ExpressLoader from '@/loaders/ExpressLoader'
+import TypeormLoader from '@/loaders/TypeormLoader'
 
 import { FusionAuthMiddleware } from '~/middlewares'
 import { OfferService } from '~/services'
@@ -18,7 +19,8 @@ describe('/api/v1/offers', () => {
   let connection: Connection
 
   beforeAll(async () => {
-    ({ app, connection } = await bootstrapApp())
+    app = ExpressLoader()
+    connection = await TypeormLoader()
 
     FusionAuthMiddleware.prototype.use = jest.fn(async (req, res, next) => next())
   })

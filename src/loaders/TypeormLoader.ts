@@ -1,6 +1,6 @@
 import { MicroframeworkSettings } from 'microframework-w3tec'
 import { Container } from 'typedi'
-import { createConnection, ConnectionOptions, useContainer } from 'typeorm'
+import { createConnection, ConnectionOptions, useContainer, Connection } from 'typeorm'
 
 import envs from '@/config/envs'
 
@@ -17,7 +17,7 @@ export const connectionOptions: ConnectionOptions = {
   migrations: ['src/database/migrations/**/*.ts']
 }
 
-export default async (settings: MicroframeworkSettings | undefined): Promise<void> => {
+export default async (settings?: MicroframeworkSettings): Promise<Connection> => {
   useContainer(Container)
   const connection = await createConnection(connectionOptions)
 
@@ -31,4 +31,6 @@ export default async (settings: MicroframeworkSettings | undefined): Promise<voi
       await connection.close()
     })
   }
+
+  return connection
 }
