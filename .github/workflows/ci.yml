@@ -3,7 +3,7 @@ name: Template workflow
 on: [push]
 
 jobs:
-  validate:
+  test:
     runs-on: ubuntu-latest
     container:
       image: node:12.16.1-stretch
@@ -35,11 +35,23 @@ jobs:
           yarn run:migrations:test
           yarn test
 
+  lint:
+    runs-on: ubuntu-latest
+    container:
+      image: node:12.16.1-stretch
+    steps:
+      - uses: actions/checkout@v1
       - name: Lint
         run: |
           yarn
           yarn formalint
 
+  audit:
+    runs-on: ubuntu-latest
+    container:
+      image: node:12.16.1-stretch
+    steps:
+      - uses: actions/checkout@v1
       - name: Audit
         run: |
           yarn
