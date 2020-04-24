@@ -1,15 +1,12 @@
-x-node-setup: &node-setup
-  runs-on: ubuntu-latest
-  container:
-    image: node:12.16.1-stretch
-
 name: Template workflow
 
 on: [push]
 
 jobs:
   test:
-    <<: *node-setup
+    runs-on: ubuntu-latest
+    container:
+      image: node:12.16.1-stretch
     services:
       postgres:
         image: postgres:12-alpine
@@ -39,7 +36,9 @@ jobs:
           yarn test
 
   lint:
-    <<: *node-setup
+    runs-on: ubuntu-latest
+    container:
+      image: node:12.16.1-stretch
     steps:
       - uses: actions/checkout@v1
       - name: Lint
@@ -48,7 +47,9 @@ jobs:
           yarn formalint
 
   audit:
-    <<: *node-setup
+    runs-on: ubuntu-latest
+    container:
+      image: node:12.16.1-stretch
     steps:
       - uses: actions/checkout@v1
       - name: Audit
