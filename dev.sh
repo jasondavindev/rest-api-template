@@ -44,7 +44,7 @@ function dkdown {
 }
 
 function dk {
-  docker exec -ti "${PROJECT_NAME}-api" $@
+  docker-compose run --rm "app" $@
 }
 
 function pkg_install {

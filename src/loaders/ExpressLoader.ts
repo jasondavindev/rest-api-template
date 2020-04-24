@@ -1,13 +1,22 @@
-import { MicroframeworkSettings } from 'microframework-w3tec'
+import 'dotenv/config'
+import { Application } from 'express'
+import path from 'path'
+import { createExpressServer } from 'routing-controllers'
 
-import App from '@/app'
+export default (): Application => {
+  const app = createExpressServer({
+    cors: true,
+    classTransformer: false,
+    validation: true,
+    routePrefix: '/api',
+    defaultErrorHandler: false,
+    controllers: [`${path.resolve(__dirname, '..', 'api', 'controllers')}/*.ts`],
+    middlewares: [`${path.resolve(__dirname, '..', 'api', 'middlewares')}/*.ts`]
+  })
 
-export default (settings: MicroframeworkSettings | undefined): void => {
-  if (settings) {
-    settings.setData('app', App)
-
-    if (process.env.NODE_ENV !== 'test') {
-      App.listen(Number(process.env.NODE_PORT))
-    }
+  if (process.env.NODE_ENV !== 'test') {
+    app.listen(3000)
   }
+
+  return app
 }
