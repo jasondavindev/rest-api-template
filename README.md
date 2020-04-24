@@ -13,6 +13,7 @@ This repository is a boilerplate for to build REST APIs with Node.Js, using Expr
 - Debug mode for dockerized environment
 - Authentication using [FusionAuth](https://fusionauth.io/)
 - [GitLab CI](https://docs.gitlab.com/ee/ci/) for deploy on the AWS Platform
+- [GitHub Actions](https://github.com/features/actions) integration for CI
 
 ## Creating a based project
 
