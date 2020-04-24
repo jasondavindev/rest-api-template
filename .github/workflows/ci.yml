@@ -51,7 +51,7 @@ jobs:
     <<: *node-setup
     steps:
       - uses: actions/checkout@v1
-    - name: Audit
-      run: |
-        yarn
-        yarn audit
+      - name: Audit
+        run: |
+          yarn
+          yarn audit
