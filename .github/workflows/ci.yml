@@ -40,18 +40,18 @@ jobs:
 
   lint:
     <<: *node-setup
-      steps:
-        - uses: actions/checkout@v1
-        - name: Lint
-          run: |
-            yarn
-            yarn formalint
+    steps:
+      - uses: actions/checkout@v1
+      - name: Lint
+        run: |
+          yarn
+          yarn formalint
 
   audit:
     <<: *node-setup
-      steps:
-        - uses: actions/checkout@v1
-      - name: Audit
-        run: |
-          yarn
-          yarn audit
+    steps:
+      - uses: actions/checkout@v1
+    - name: Audit
+      run: |
+        yarn
+        yarn audit
