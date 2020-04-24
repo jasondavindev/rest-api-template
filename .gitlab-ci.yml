@@ -5,9 +5,9 @@ stages:
   - migrate
 
 test:
-  image: 'node:alpine'
+  image: 'node:12.16.1-stretch'
   services:
-    - 'postgres:alpine'
+    - 'postgres:12-alpine'
   stage: validate
   tags:
     - m5
@@ -28,7 +28,7 @@ test:
     - 'yarn test'
 
 lint:
-  image: 'node:alpine'
+  image: 'node:12.16.1-stretch'
   stage: validate
   tags:
     - m5
@@ -38,7 +38,7 @@ lint:
     - 'yarn lint'
 
 audit:
-  image: 'node:alpine'
+  image: 'node:12.16.1-stretch'
   stage: validate
   tags:
     - m5
