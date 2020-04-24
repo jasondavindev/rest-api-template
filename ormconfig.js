@@ -11,7 +11,7 @@ const envs = ['production', 'test', 'development'].map((env) => ({
   migrations: [
     process.env.IS_SEED ? 'src/database/seeds/**/*.ts' : 'src/database/migrations/**/*.ts'
   ],
-  type: process.env.TYPEORM_TYPE
+  type: 'postgres'
 }))
 
 module.exports = envs
