@@ -45,7 +45,8 @@ module.exports = {
     'object-curly-newline': 0,
     '@typescript-eslint/explicit-function-return-type': 'off',
     'class-methods-use-this': 0,
-    'import/no-cycle': 0
+    'import/no-cycle': 0,
+    'prefer-destructuring': ['error', { object: true, array: true }]
   },
   settings: {
     'import/extensions': ['.js', '.ts'],
