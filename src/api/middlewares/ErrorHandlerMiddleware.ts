@@ -1,18 +1,12 @@
 import { Request, Response } from 'express'
 import { ExpressErrorMiddlewareInterface, Middleware } from 'routing-controllers'
 
-import { Logger, LoggerInterface } from '@/decorators/Logger'
+import { Logger, LoggerInterface } from '@/decorators/logger'
 import { GenericHttpError } from '@/types'
 
 @Middleware({ type: 'after' })
 export default class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInterface {
-  private isProduction: boolean
-
-  @Logger(__filename) private log: LoggerInterface
-
-  constructor() {
-    this.isProduction = process.env.NODE_ENV === 'production'
-  }
+  @Logger() private logger: LoggerInterface
 
   public error(
     { httpCode, statusCode, exception, message, stack, name }: GenericHttpError,
@@ -25,10 +19,6 @@ export default class ErrorHandlerMiddleware implements ExpressErrorMiddlewareInt
       message: message || exception.message
     })
 
-    if (this.isProduction) {
-      this.log.error(name || exception.name, message || exception.message)
-    } else {
-      this.log.error(name || exception.name, message || exception.message, stack || exception.stack)
-    }
+    this.logger.error({ message: message || exception.message, stack: stack || exception.stack })
   }
 }
