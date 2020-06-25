@@ -6,7 +6,7 @@ import { createExpressServer } from 'routing-controllers'
 export default (): Application => {
   const app = createExpressServer({
     cors: true,
-    classTransformer: false,
+    classTransformer: true,
     validation: true,
     routePrefix: '/api',
     defaultErrorHandler: false,
