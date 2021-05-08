@@ -38,7 +38,7 @@
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
     "typedi": "^0.8.0",
-    "typeorm": "^0.2.24",
+    "typeorm": "^0.2.25",
     "typeorm-typedi-extensions": "^0.2.3",
     "typescript": "^3.7.5",
     "winston": "^3.2.1"
